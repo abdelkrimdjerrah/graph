@@ -61,14 +61,14 @@ const Stats = ({ graph, setGraph }: IStats) => {
 
   const handleAjouterArc = () => {
     if (optionSelectDepartAjouter && optionSelectDestinationAjouter && valueArc) {
-      const dejaExiste = graph.edges.filter((edge:edgeType) => {
-        if(edge.from == optionSelectDepartAjouter.id && edge.to == optionSelectDestinationAjouter.id)
-        return true
-      })
-      // if(dejaExiste){
-      //   setError('Graph doit etre simple')
-      // }
-      // else{
+       // Check if the edge already exists.
+      const dejaExiste = graph.edges.filter((edge: edgeType) => {
+        return edge.from === optionSelectDepartAjouter.id && edge.to === optionSelectDestinationAjouter.id;
+      });
+      if(dejaExiste.length){
+        setError('Graph doit etre simple')
+      }
+      else{
         setGraph((prev) => ({
           ...prev,
           edges: [...prev.edges, { from: optionSelectDepartAjouter.id, to: optionSelectDestinationAjouter.id, label:valueArc }],
@@ -76,7 +76,7 @@ const Stats = ({ graph, setGraph }: IStats) => {
         setError('')
         setOptionSelectDepartAjouter({id: -1, label: '',shape:''})
         setOptionSelectDestinationAjouter({id: -1, label: '',shape:''})
-      // }
+      }
     }
     else{
       setError('Field is empty')
