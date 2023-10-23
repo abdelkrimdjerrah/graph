@@ -30,6 +30,13 @@ export default function App() {
     ]
   };
 
+
+  // const graph = {
+  //   1 : { predecesseurs: [2,3,4], successeurs: [5,6]}
+  //   2 : { predecesseurs: [1,3], successeurs: [5,6,9]}
+  // }
+
+
   
   useEffect(()=>{
     setGraph(graphInitialData)    

@@ -15,9 +15,12 @@ interface IStats {
 }
 
 const Stats = ({ graph, setGraph }: IStats) => {
-    
+  
+  const [error, setError] = useState('')
   const [sommetAjouter, setSommetAjouter] = useState("");
   const [sommetSupprimer, setSommetSupprimer] = useState("");
+  const [valueArc, setValueArc] = useState("");
+  const [optionSelectSupprimerSommet, setOptionSelectSupprimerSommet] = useState<{id:number,label:string, shape:string}>({id: -1, label: '',shape:''});
   const [optionSelectDepartAjouter, setOptionSelectDepartAjouter] = useState<{id:number,label:string, shape:string}>({id: -1, label: '',shape:''});
   const [optionSelectDestinationAjouter, setOptionSelectDestinationAjouter] = useState<{id:number,label:string, shape:string}>({id: -1, label: '',shape:''});
   const [optionSelectDepartSupprimer, setOptionSelectDepartSupprimer] = useState<{id:number,label:string, shape:string}>({id: -1, label: '',shape:''});
@@ -31,26 +34,67 @@ const Stats = ({ graph, setGraph }: IStats) => {
         ...prev,
         nodes: [...prev.nodes, { id: prev.nodes.length + 1, label: sommetAjouter, shape: "circle" }],
       }));
+      setError('')
+      setSommetAjouter("");
     }
-    setSommetAjouter("");
+    else{
+      setError('Field is empty')
+    }
   };
 
-  const handleSupprimerSommet = () => {
-    if (sommetAjouter) {
 
+
+  const handleSupprimerSommet = () => {
+    if (optionSelectSupprimerSommet) {
+      setGraph((prev) => ({
+        ...prev,
+        nodes: prev.nodes.filter((node) => node.id !== optionSelectSupprimerSommet.id),
+        edges: prev.edges.filter((edge) => edge.from !== optionSelectSupprimerSommet.id && edge.to !== optionSelectSupprimerSommet.id),
+      }));
+      setError('')
+      setSommetSupprimer("");
     }
-    setSommetSupprimer("");
+    else{
+      setError('Field is empty')
+    }
   };
 
   const handleAjouterArc = () => {
-    if (optionSelectDepartAjouter && optionSelectDestinationAjouter) {
-      graph.edges.push( { from: optionSelectDepartAjouter.id, to: optionSelectDestinationAjouter.id, label:'' })  
+    if (optionSelectDepartAjouter && optionSelectDestinationAjouter && valueArc) {
+      const dejaExiste = graph.edges.filter((edge:edgeType) => {
+        if(edge.from == optionSelectDepartAjouter.id && edge.to == optionSelectDestinationAjouter.id)
+        return true
+      })
+      // if(dejaExiste){
+      //   setError('Graph doit etre simple')
+      // }
+      // else{
+        setGraph((prev) => ({
+          ...prev,
+          edges: [...prev.edges, { from: optionSelectDepartAjouter.id, to: optionSelectDestinationAjouter.id, label:valueArc }],
+        }));
+        setError('')
+        setOptionSelectDepartAjouter({id: -1, label: '',shape:''})
+        setOptionSelectDestinationAjouter({id: -1, label: '',shape:''})
+      // }
+    }
+    else{
+      setError('Field is empty')
     }
   };
 
   const handleSupprimerArc = () => {
     if (optionSelectDepartSupprimer && optionSelectDestinationSupprimer) {
-
+      setGraph((prev) => ({
+        ...prev,
+        edges: prev.edges.filter((edge) => edge.from !== optionSelectDepartSupprimer.id || edge.to !== optionSelectDestinationSupprimer.id),
+      }));
+      setError('')
+      setOptionSelectDepartSupprimer({id: -1, label: '',shape:''})
+        setOptionSelectDestinationSupprimer({id: -1, label: '',shape:''})
+    }
+    else{
+      setError('Field is empty')
     }
   };
 
@@ -58,6 +102,7 @@ const Stats = ({ graph, setGraph }: IStats) => {
     <>
     
       <div className="text-white z-10 absolute top-5 right-5 flex flex-col gap-5">
+        
         <div className="flex gap-2">
           <p>Sommets:</p>
           <p>{graph.nodes.length}</p>
@@ -69,6 +114,9 @@ const Stats = ({ graph, setGraph }: IStats) => {
       </div>
     
       <div className="text-white z-10 absolute top-5 left-5 flex flex-col gap-5">
+
+        {error ? <p className="text-red-500 font-medium text-lg ">{error}</p> : null}
+
         <div className="flex flex-col gap-2">
           <div className="text-yellow-400 font-semibold">Ajouter Sommet:</div>
           <Input
@@ -86,14 +134,14 @@ const Stats = ({ graph, setGraph }: IStats) => {
         <hr />
         <div className="flex flex-col gap-2">
           <div className="text-yellow-400 font-semibold">Supprimer Sommet:</div>
-          <Input
-            text="Nom de sommet ..."
-            type="text"
-            widthFull
-            onChange={(v) => setSommetSupprimer(v)}
-            value={sommetSupprimer}
-            className="py-2 text-xs w-[250px] bg-white text-black pr-8"
+          <Select
+              items={graph.nodes}
+              placeholder="Supprimer sommet"
+              defaultValue={optionSelectSupprimerSommet}
+              setSelectedOption={setOptionSelectSupprimerSommet}
+              selectedOption={optionSelectSupprimerSommet}
           />
+
           <Button widthFull onClick={handleSupprimerSommet}>
             Supprimer Sommet
           </Button>
@@ -101,8 +149,9 @@ const Stats = ({ graph, setGraph }: IStats) => {
         <hr />
         <div className="flex flex-col gap-2">
           <div className="text-yellow-400 font-semibold">Ajouter Arc:</div>
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2">
           
+            <div className="flex gap-2">
                   <Select
                       items={graph.nodes}
                       placeholder="Sommet depart"
@@ -119,6 +168,17 @@ const Stats = ({ graph, setGraph }: IStats) => {
                       setSelectedOption={setOptionSelectDestinationAjouter}
                       selectedOption={optionSelectDestinationAjouter}
                   />
+
+            </div>
+
+            <Input
+              text="Value d'arc"
+              type="text"
+              widthFull
+              onChange={(v) => setValueArc(v)}
+              value={valueArc}
+              className="py-2 text-xs w-[250px] bg-white text-black pr-8"
+            />
               
           </div>
           <Button widthFull onClick={handleAjouterArc}>
