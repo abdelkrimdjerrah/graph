@@ -6,6 +6,24 @@ export default function App() {
 
   const [graph, setGraph] = useState<{nodes:{id:number,label:string, shape:string}[],edges:{from:number, to:number, label:string}[]}>({nodes:[],edges:[]});
 
+
+  const graphStructure:any = {};
+
+  for (const edge of graph.edges) {
+    const from = edge.from;
+    const to = edge.to;
+    if (!graphStructure[from]) {
+      graphStructure[from] = { predecesseurs: [], successeurs: [] };
+    }
+    if (!graphStructure[to]) {
+      graphStructure[to] = { predecesseurs: [], successeurs: [] };
+    }
+    graphStructure[from].successeurs.push(to);
+    graphStructure[to].predecesseurs.push(from);
+  }
+
+
+
   const graphInitialData = {
     nodes: [ //sommets
       { id: 1, label: "Node 1", shape: "circle" },
@@ -31,10 +49,7 @@ export default function App() {
   };
 
 
-  // const graph = {
-  //   1 : { predecesseurs: [2,3,4], successeurs: [5,6]}
-  //   2 : { predecesseurs: [1,3], successeurs: [5,6,9]}
-  // }
+
 
 
   
