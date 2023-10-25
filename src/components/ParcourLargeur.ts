@@ -20,13 +20,11 @@ export const ParcourLargeur = (graph: Graph, start: number) => {
             continue;
         }
         neighbors.forEach((neighbor:number) => {
-            if (!queue.includes(neighbor)) {
+            if (!visited.includes(neighbor)) {
                 queue.push(neighbor);
             }
         });
     }
-
-    console.log('visited : ', visited)
 
     return visited;
  

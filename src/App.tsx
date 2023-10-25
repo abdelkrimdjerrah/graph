@@ -18,32 +18,35 @@ const graphInitialData = {
   ]
 };
 
-
-
 export default function App() {
 
-  const [graph, setGraph] = useState<{nodes:{id:number,label:string, shape:string}[],edges:{from:number, to:number, label:string}[]}>({nodes:[],edges:[]});
+  const [graphState, setGraphState] = useState<{nodes:{id:number,label:string, shape:string}[],edges:{from:number, to:number, label:string}[]}>({nodes:[],edges:[]});
   
-  const graphStructure:any = Array(9).fill({
-    successeurs: [],
-    predecesseurs: [],
-  });
+  const graph: any = {};
 
-  for (const edge of graph.edges) {
-    graphStructure[edge.from].successeurs.push(edge.to);
-    graphStructure[edge.to].predecesseurs.push(edge.from);
-  }
+  for (const edge of graphInitialData.edges) {
+    if (!graph[edge.from]) {
+      graph[edge.from] = {
+        successeurs: [],
+        predecesseurs: [],
+      };
+    }
 
-  console.log(graphStructure)
+    if (!graph[edge.to]) {
+      graph[edge.to] = {
+        successeurs: [],
+        predecesseurs: [],
+      };
+    }
 
-
-
+    graph[edge.from].successeurs.push(edge.to);
+    graph[edge.to].predecesseurs.push(edge.from);
+}
   
   useEffect(()=>{
-    setGraph(graphInitialData)    
+    setGraphState(graphInitialData)    
   },[])
 
-  
   
   var options = {
     nodes: {
@@ -65,8 +68,8 @@ export default function App() {
 
   return (
     <div className="bg-zinc-950">
-      <Graph graph={graph} options={options} />
-      <Stats graph={graph} setGraph={setGraph} graphStructure={graphStructure}/> 
+      <Graph graph={graphState} options={options} />
+      <Stats graphState={graphState} setGraphState={setGraphState} graph={graph}/> 
     </div>
   );
 }

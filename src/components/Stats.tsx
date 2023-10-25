@@ -8,19 +8,19 @@ declare type nodeType = { id: number; label: string; shape: string };
 declare type edgeType = { from: number; to: number, label:string };
 
 interface IStats {
-  graph: {
+  graphState: {
     nodes: nodeType[];
     edges: edgeType[];
   };
-  setGraph: React.Dispatch<React.SetStateAction<{ nodes: nodeType[]; edges: edgeType[]; }>>;
-  graphStructure: {
+  setGraphState: React.Dispatch<React.SetStateAction<{ nodes: nodeType[]; edges: edgeType[]; }>>;
+  graph: {
     successeurs: number[];
     predecesseurs: number[];
   }[]
 }
 
 
-const Stats = ({ graph, setGraph, graphStructure }: IStats) => {
+const Stats = ({ graphState, setGraphState, graph }: IStats) => {
   
   const [error, setError] = useState('')
   const [sommetAjouter, setSommetAjouter] = useState("");
@@ -36,7 +36,7 @@ const Stats = ({ graph, setGraph, graphStructure }: IStats) => {
 
   const handleAjouterSommet = () => {
     if (sommetAjouter) {
-      setGraph((prev) => ({
+      setGraphState((prev) => ({
         ...prev,
         nodes: [...prev.nodes, { id: prev.nodes.length + 1, label: sommetAjouter, shape: "circle" }],
       }));
@@ -52,7 +52,7 @@ const Stats = ({ graph, setGraph, graphStructure }: IStats) => {
 
   const handleSupprimerSommet = () => {
     if (optionSelectSupprimerSommet) {
-      setGraph((prev) => ({
+      setGraphState((prev) => ({
         ...prev,
         nodes: prev.nodes.filter((node) => node.id !== optionSelectSupprimerSommet.id),
         edges: prev.edges.filter((edge) => edge.from !== optionSelectSupprimerSommet.id && edge.to !== optionSelectSupprimerSommet.id),
@@ -68,14 +68,14 @@ const Stats = ({ graph, setGraph, graphStructure }: IStats) => {
   const handleAjouterArc = () => {
     if (optionSelectDepartAjouter && optionSelectDestinationAjouter && valueArc) {
        // Check if the edge already exists.
-      const dejaExiste = graph.edges.filter((edge: edgeType) => {
+      const dejaExiste = graphState.edges.filter((edge: edgeType) => {
         return edge.from === optionSelectDepartAjouter.id && edge.to === optionSelectDestinationAjouter.id;
       });
       if(dejaExiste.length){
         setError('Graph doit etre simple')
       }
       else{
-        setGraph((prev) => ({
+        setGraphState((prev) => ({
           ...prev,
           edges: [...prev.edges, { from: optionSelectDepartAjouter.id, to: optionSelectDestinationAjouter.id, label:valueArc }],
         }));
@@ -91,7 +91,7 @@ const Stats = ({ graph, setGraph, graphStructure }: IStats) => {
 
   const handleSupprimerArc = () => {
     if (optionSelectDepartSupprimer && optionSelectDestinationSupprimer) {
-      setGraph((prev) => ({
+      setGraphState((prev) => ({
         ...prev,
         edges: prev.edges.filter((edge) => edge.from !== optionSelectDepartSupprimer.id || edge.to !== optionSelectDestinationSupprimer.id),
       }));
@@ -111,15 +111,15 @@ const Stats = ({ graph, setGraph, graphStructure }: IStats) => {
         
         <div className="flex gap-2">
           <p>Sommets:</p>
-          <p>{graph.nodes.length}</p>
+          <p>{graphState.nodes.length}</p>
         </div>
         <div className="flex gap-2">
           <p>Arcs:</p>
-          <p>{graph.edges.length}</p>
+          <p>{graphState.edges.length}</p>
         </div>
         <div className="flex gap-2">
           <p>Parcour Largeur:</p>
-          <p>{ParcourLargeur(graphStructure,0)}</p>
+          <p>{ParcourLargeur(graph,1).join(' ; ')}</p>
         </div>
       </div>
     
@@ -145,7 +145,7 @@ const Stats = ({ graph, setGraph, graphStructure }: IStats) => {
         <div className="flex flex-col gap-2">
           <div className="text-yellow-400 font-semibold">Supprimer Sommet:</div>
           <Select
-              items={graph.nodes}
+              items={graphState.nodes}
               placeholder="Supprimer sommet"
               defaultValue={optionSelectSupprimerSommet}
               setSelectedOption={setOptionSelectSupprimerSommet}
@@ -163,7 +163,7 @@ const Stats = ({ graph, setGraph, graphStructure }: IStats) => {
           
             <div className="flex gap-2">
                   <Select
-                      items={graph.nodes}
+                      items={graphState.nodes}
                       placeholder="Sommet depart"
                       defaultValue={optionSelectDepartAjouter}
                       setSelectedOption={setOptionSelectDepartAjouter}
@@ -172,7 +172,7 @@ const Stats = ({ graph, setGraph, graphStructure }: IStats) => {
 
           
                   <Select
-                      items={graph.nodes}
+                      items={graphState.nodes}
                       placeholder="Sommet destination"
                       defaultValue={optionSelectDestinationAjouter}
                       setSelectedOption={setOptionSelectDestinationAjouter}
@@ -201,7 +201,7 @@ const Stats = ({ graph, setGraph, graphStructure }: IStats) => {
           <div className="flex gap-2">
           
                   <Select
-                      items={graph.nodes}
+                      items={graphState.nodes}
                       placeholder="Sommet depart"
                       defaultValue={optionSelectDepartSupprimer}
                       setSelectedOption={setOptionSelectDepartSupprimer}
@@ -209,7 +209,7 @@ const Stats = ({ graph, setGraph, graphStructure }: IStats) => {
                   />
 
                   <Select
-                      items={graph.nodes}
+                      items={graphState.nodes}
                       placeholder="Sommet destination"
                       defaultValue={optionSelectDestinationSupprimer}
                       setSelectedOption={setOptionSelectDestinationSupprimer}
