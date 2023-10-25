@@ -14,6 +14,7 @@ const graphInitialData = {
     { from: 0, to: 1, label:'10' },
     { from: 0, to: 2, label:'10' },
     { from: 2, to: 3, label:'10' },
+    { from: 3, to: 0, label:'10' },
     { from: 3, to: 4, label:'10' },
   ]
 };
@@ -52,13 +53,12 @@ export default function App() {
     nodes: {
       size: 40,
       color: {
-        border: "#222222",
-        background: "#666666",
+        background: "#4B5563",
       },
-      font: { color: "yellow" },
+      font: { color: "white" },
     },
     edges: {
-      color: "yellow",
+      color: "white",
       shadow: true,
       smooth: true,
     },

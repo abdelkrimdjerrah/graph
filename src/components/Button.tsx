@@ -35,8 +35,8 @@ export default function Button({
 
   const width = widthFull ? "w-full flex-1" : "";
   const btn_style = outlined
-    ? " border-[1px] border-yellow-400 text-yellow-500  hover:bg-yellow-500 hover:text-white"
-    : " bg-yellow-500 text-white  hover:bg-yellow-600 ";
+    ? " border-[1px] border-gray-700 text-gray-800  hover:bg-gray-800 hover:text-white"
+    : " bg-gray-600 text-white  hover:bg-gray-700 ";
 
   return (
     <button
@@ -47,7 +47,7 @@ export default function Button({
       className={
         width +
         btn_style +
-        " text-sm w-fit font-medium  relative py-3 px-10 rounded-lg duration-200 disabled:opacity-60 disabled:cursor-not-allowed " +
+        " text-sm w-fit font-medium  relative py-2 px-10 rounded-lg duration-200 disabled:opacity-60 disabled:cursor-not-allowed " +
         className
       }
       style={{ color: isHover ? "white" : color, borderColor: color, backgroundColor: isHover ? color : ""}}

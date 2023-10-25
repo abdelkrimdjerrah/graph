@@ -128,7 +128,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
         {error ? <p className="text-red-500 font-medium text-lg ">{error}</p> : null}
 
         <div className="flex flex-col gap-2">
-          <div className="text-yellow-400 font-semibold">Ajouter Sommet:</div>
+          <div className="text-gray-300 font-semibold">Ajouter Sommet:</div>
           <Input
             text="Nom de sommet ..."
             type="text"
@@ -143,7 +143,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
         </div>
         <hr />
         <div className="flex flex-col gap-2">
-          <div className="text-yellow-400 font-semibold">Supprimer Sommet:</div>
+          <div className="text-gray-300 font-semibold">Supprimer Sommet:</div>
           <Select
               items={graphState.nodes}
               placeholder="Supprimer sommet"
@@ -158,10 +158,10 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
         </div>
         <hr />
         <div className="flex flex-col gap-2">
-          <div className="text-yellow-400 font-semibold">Ajouter Arc:</div>
+          <div className="text-gray-300 font-semibold">Ajouter Arc:</div>
           <div className="flex flex-col gap-2">
           
-            <div className="flex gap-2">
+       
                   <Select
                       items={graphState.nodes}
                       placeholder="Sommet depart"
@@ -179,7 +179,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
                       selectedOption={optionSelectDestinationAjouter}
                   />
 
-            </div>
+
 
             <Input
               text="Value d'arc"
@@ -197,8 +197,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
         </div>
         <hr />
         <div className="flex flex-col gap-2">
-          <div className="text-yellow-400 font-semibold">Supprimer Arc:</div>
-          <div className="flex gap-2">
+          <div className="text-gray-300 font-semibold">Supprimer Arc:</div>
           
                   <Select
                       items={graphState.nodes}
@@ -216,7 +215,6 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
                       selectedOption={optionSelectDestinationSupprimer}
                   />
               
-          </div>
           <Button widthFull onClick={handleSupprimerArc}>
             Supprimer Arc
           </Button>
