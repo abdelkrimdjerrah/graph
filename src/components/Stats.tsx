@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Input from "./Input";
 import Button from "./Button";
 import Select from "./Select";
+import { ParcourLargeur } from "./ParcourLargeur";
 
 declare type nodeType = { id: number; label: string; shape: string };
 declare type edgeType = { from: number; to: number, label:string };
@@ -12,9 +13,14 @@ interface IStats {
     edges: edgeType[];
   };
   setGraph: React.Dispatch<React.SetStateAction<{ nodes: nodeType[]; edges: edgeType[]; }>>;
+  graphStructure: {
+    successeurs: number[];
+    predecesseurs: number[];
+  }[]
 }
 
-const Stats = ({ graph, setGraph }: IStats) => {
+
+const Stats = ({ graph, setGraph, graphStructure }: IStats) => {
   
   const [error, setError] = useState('')
   const [sommetAjouter, setSommetAjouter] = useState("");
@@ -110,6 +116,10 @@ const Stats = ({ graph, setGraph }: IStats) => {
         <div className="flex gap-2">
           <p>Arcs:</p>
           <p>{graph.edges.length}</p>
+        </div>
+        <div className="flex gap-2">
+          <p>Parcour Largeur:</p>
+          <p>{ParcourLargeur(graphStructure,0)}</p>
         </div>
       </div>
     
