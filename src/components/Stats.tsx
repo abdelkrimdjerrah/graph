@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Button from "./Button";
 import Select from "./Select";
-
+import { BFS } from "../algorithms/BFS";
 
 declare type nodeType = { id: number; label: string; shape: string };
 declare type edgeType = { from: number; to: number; label: string };
@@ -48,7 +48,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
           setSelectedOption={setNodeStartBfs}
           selectedOption={nodeStartBfs}
         />
-        <Button widthFull onClick={() => {}}>
+        <Button widthFull onClick={() => {console.log(BFS(graph,nodeStartBfs.id))}}>
             Apply BFS
         </Button>
       </div>

@@ -26,7 +26,7 @@ export default function App() {
   
   const graph: any = {};
 
-  for (const edge of graphInitialData.edges) {
+  for (const edge of graphState.edges) {
     if (!graph[edge.from]) {
       graph[edge.from] = {
         successeurs: [],
@@ -45,6 +45,8 @@ export default function App() {
     graph[edge.to].predecesseurs.push(edge.from);
 }
   
+
+console.log(graph)
   useEffect(()=>{
     setGraphState(graphInitialData)    
   },[])
