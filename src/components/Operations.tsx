@@ -14,10 +14,7 @@ interface IStats {
   setGraphState: React.Dispatch<
     React.SetStateAction<{ nodes: nodeType[]; edges: edgeType[] }>
   >;
-  graph: {
-    successeurs: number[];
-    predecesseurs: number[];
-  }[];
+  graph: Map<number, { successeurs: number[]; predecesseurs: number[] }>;
 }
 
 const Operations = ({ graphState, setGraphState, graph }: IStats) => {
@@ -57,7 +54,7 @@ const Operations = ({ graphState, setGraphState, graph }: IStats) => {
         ...prev,
         nodes: [
           ...prev.nodes,
-          { id: prev.nodes.length + 1, label: nodeAdd, shape: "circle" },
+          { id: prev.nodes.length, label: nodeAdd, shape: "circle" },
         ],
       }));
       setError("");

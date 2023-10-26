@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "./Button";
 import Select from "./Select";
 import { BFS } from "../algorithms/BFS";
+import { checkCycle } from "../algorithms/checkCycle";
 
 declare type nodeType = { id: number; label: string; shape: string };
 declare type edgeType = { from: number; to: number; label: string };
@@ -14,10 +15,7 @@ interface IStats {
   setGraphState: React.Dispatch<
     React.SetStateAction<{ nodes: nodeType[]; edges: edgeType[] }>
   >;
-  graph: {
-    successeurs: number[];
-    predecesseurs: number[];
-  }[];
+  graph: Map<number, { successeurs: number[]; predecesseurs: number[] }>;
 }
 
 const Stats = ({ graphState, setGraphState, graph }: IStats) => {
@@ -33,7 +31,6 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
     shape: string;
   }>({ id: -1, label: "", shape: "" });
 
-
   return (
     <div className="text-white z-10 absolute top-5 right-5 flex flex-col gap-5">
       {error ? (
@@ -48,8 +45,13 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
           setSelectedOption={setNodeStartBfs}
           selectedOption={nodeStartBfs}
         />
-        <Button widthFull onClick={() => {console.log(BFS(graph,nodeStartBfs.id))}}>
-            Apply BFS
+        <Button
+          widthFull
+          onClick={() => {
+            console.log(BFS(graph, nodeStartBfs.id));
+          }}
+        >
+          Apply BFS
         </Button>
       </div>
       <hr />
@@ -62,7 +64,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
           setSelectedOption={setNodeStartDfs}
           selectedOption={nodeStartDfs}
         />
-        <Button widthFull onClick={()=> {}}>
+        <Button widthFull onClick={() => {}}>
           Apply DFS
         </Button>
       </div>
