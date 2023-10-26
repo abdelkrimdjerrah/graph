@@ -1,6 +1,7 @@
 import Graph from "react-vis-network-graph";
-import Stats from "./components/Stats";
+import Operations from "./components/Operations";
 import { useEffect, useState } from "react";
+import Stats from "./components/Stats";
 
 const graphInitialData = {
   nodes: [ //sommets
@@ -54,21 +55,32 @@ export default function App() {
       size: 40,
       color: {
         background: "#4B5563",
+        border: "#4B5563",
       },
       font: { color: "white" },
     },
     edges: {
       color: "white",
       shadow: true,
-      smooth: true,
+      smooth: {
+        enabled: true,
+   
+      }
     },
     height: "900px",
+
+    // layout: {
+    //   hierarchical: {
+    //     enabled: true
+    //   }
+    // }
   };
 
 
   return (
     <div className="bg-zinc-950">
       <Graph graph={graphState} options={options} />
+      <Operations graphState={graphState} setGraphState={setGraphState} graph={graph}/> 
       <Stats graphState={graphState} setGraphState={setGraphState} graph={graph}/> 
     </div>
   );

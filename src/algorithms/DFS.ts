@@ -6,7 +6,7 @@ declare type Graph = {
   }[];
 
 
-export const ParcourProfondeur = (graph: Graph, start: number) => {
+export const DFS = (graph: Graph, start: number) => {
 
     const queue: number[] = [];
     const visited: number[] = [];
