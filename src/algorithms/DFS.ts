@@ -1,19 +1,26 @@
-declare type Graph = {
-    [id: number]: {
-      successeurs: number[];
-      predecesseurs: number[];
-    };
-  }[];
+declare type Graph = Map<
+  number,
+  { successeurs: number[]; predecesseurs: number[] }
+>;
 
 
 export const DFS = (graph: Graph, start: number) => {
 
-    const queue: number[] = [];
-    const visited: number[] = [];
+  const stack: number[] = [];
+  const visited: number[] = [];
 
-    queue.push(start);
-    
+  stack.push(start);
 
-    return visited;
+  while (stack.length > 0) {
+    const currentNode = stack.pop() as number;
+    visited.push(currentNode);
+    const neighbors = graph.get(currentNode)!.successeurs;
+    neighbors?.forEach((neighbor: number) => {
+      if (!visited.includes(neighbor)) {
+        stack.push(neighbor);
+      }
+    });
+  }
 
-}
+  return visited;
+};

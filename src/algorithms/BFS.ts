@@ -11,14 +11,9 @@ export const BFS = (graph: Graph, start: number) => {
 
   while (queue.length > 0) {
     const currentNode = queue.shift() as number;
-    if (!visited.includes(currentNode)) {
-      visited.push(currentNode);
-    }
+    visited.push(currentNode);
     const neighbors = graph.get(currentNode)!.successeurs;
-    if (neighbors.length === 0) {
-      continue;
-    }
-    neighbors.forEach((neighbor: number) => {
+    neighbors?.forEach((neighbor: number) => {
       if (!visited.includes(neighbor)) {
         queue.push(neighbor);
       }

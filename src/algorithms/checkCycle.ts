@@ -23,10 +23,7 @@ const checkCycleNode = (graph: Graph, start: number) => {
     const currentNode = queue.shift() as number;
     visited.push(currentNode);
     const neighbors = graph.get(currentNode)!.successeurs;
-    if (neighbors.length === 0) {
-      continue;
-    }
-    neighbors.forEach((neighbor: number) => {
+    neighbors?.forEach((neighbor: number) => {
       if (!visited.includes(neighbor)) {
         queue.push(neighbor);
       } else {

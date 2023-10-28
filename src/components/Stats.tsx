@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "./Button";
 import Select from "./Select";
 import { BFS } from "../algorithms/BFS";
+import { DFS } from "../algorithms/DFS";
 import { checkCycle } from "../algorithms/checkCycle";
 
 declare type nodeType = { id: number; label: string; shape: string };
@@ -64,7 +65,9 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
           setSelectedOption={setNodeStartDfs}
           selectedOption={nodeStartDfs}
         />
-        <Button widthFull onClick={() => {}}>
+        <Button widthFull onClick={() => {
+          console.log(DFS(graph, nodeStartDfs.id));
+        }}>
           Apply DFS
         </Button>
       </div>
