@@ -3,7 +3,8 @@ import Button from "./Button";
 import Select from "./Select";
 import { BFS } from "../algorithms/BFS";
 import { DFS } from "../algorithms/DFS";
-import { checkCycle } from "../algorithms/checkCycle";
+import { TopologicalStorting } from "../algorithms/TopologicalStorting"
+import { CheckCycle } from "../algorithms/CheckCycle";
 
 declare type nodeType = { id: number; label: string; shape: string };
 declare type edgeType = { from: number; to: number; label: string };
@@ -20,7 +21,12 @@ interface IStats {
 }
 
 const Stats = ({ graphState, setGraphState, graph }: IStats) => {
+
   const [error, setError] = useState("");
+  const [resultBfs, setResultBfs] = useState<number[]>([]);
+  const [resultDfs, setResultDfs] = useState<number[]>([]);
+  const [resultTopologicalSorting, setResultTopologicalSorting] = useState<number[][]>([]);
+
   const [nodeStartBfs, setNodeStartBfs] = useState<{
     id: number;
     label: string;
@@ -31,6 +37,28 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
     label: string;
     shape: string;
   }>({ id: -1, label: "", shape: "" });
+
+
+  const applyBFS = () => {
+    setError("");
+    setResultBfs(BFS(graph, nodeStartBfs.id));
+  }
+
+  const applyDFS = () => {  
+    setError("");
+    setResultDfs(DFS(graph, nodeStartDfs.id));
+  }
+
+  const applyTopologicalSorting = () => {
+    setError("");
+    if(CheckCycle(graph)) {
+      setError("There is a cycle!");
+      return;
+    }
+    setResultTopologicalSorting(TopologicalStorting(graph));
+  }
+
+
 
   return (
     <div className="text-white z-10 absolute top-5 right-5 flex flex-col gap-5">
@@ -48,9 +76,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
         />
         <Button
           widthFull
-          onClick={() => {
-            console.log(BFS(graph, nodeStartBfs.id));
-          }}
+          onClick={() => {applyBFS()}}
         >
           Apply BFS
         </Button>
@@ -65,10 +91,15 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
           setSelectedOption={setNodeStartDfs}
           selectedOption={nodeStartDfs}
         />
-        <Button widthFull onClick={() => {
-          console.log(DFS(graph, nodeStartDfs.id));
-        }}>
+        <Button widthFull onClick={() => {applyDFS()}}>
           Apply DFS
+        </Button>
+      </div>
+      <hr />
+      <div className="flex flex-col gap-2">
+        <div className="text-gray-300 font-semibold">Topological Sorting:</div>
+        <Button widthFull onClick={() => {applyTopologicalSorting()}}>
+          Apply Sorting
         </Button>
       </div>
     </div>

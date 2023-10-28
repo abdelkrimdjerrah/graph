@@ -10,13 +10,14 @@ const graphInitialData = {
     { id: 2, label: "Node 2", shape: "circle" },
     { id: 3, label: "Node 3", shape: "circle" },
     { id: 4, label: "Node 4", shape: "circle" },
+    { id: 5, label: "Node 5", shape: "circle" },
   ],
   edges: [
     { from: 0, to: 1, label: "10" },
     { from: 0, to: 2, label: "10" },
     { from: 2, to: 3, label: "10" },
-    { from: 3, to: 0, label: "10" },
     { from: 3, to: 4, label: "10" },
+    { from: 5, to: 0, label: "10" },
   ],
 };
 

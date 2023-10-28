@@ -4,6 +4,10 @@ declare type Graph = Map<
 >;
 
 export const BFS = (graph: Graph, start: number) => {
+  if (start == -1  || !graph.size) {
+    return [];
+  }
+
   const queue: number[] = [];
   const visited: number[] = [];
 

@@ -3,16 +3,16 @@ declare type Graph = Map<
   { successeurs: number[]; predecesseurs: number[] }
 >;
 
-export const checkCycle = (graph: Graph) => {
+export const CheckCycle = (graph: Graph) => {
   for (let i = 0; i < graph.size; i++) {
-    if (checkCycleNode(graph, 0)) {
+    if (CheckCycleNode(graph, 0)) {
       return true;
     }
   }
   return false;
 };
 
-const checkCycleNode = (graph: Graph, start: number) => {
+const CheckCycleNode = (graph: Graph, start: number) => {
   const queue: number[] = [];
   const visited: number[] = [];
 

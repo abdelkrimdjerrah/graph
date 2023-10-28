@@ -3,8 +3,11 @@ declare type Graph = Map<
   { successeurs: number[]; predecesseurs: number[] }
 >;
 
-
 export const DFS = (graph: Graph, start: number) => {
+
+  if (start == -1 || !graph.size) {
+    return [];
+  }
 
   const stack: number[] = [];
   const visited: number[] = [];
