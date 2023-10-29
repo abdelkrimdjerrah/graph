@@ -5,12 +5,12 @@ import Stats from "./components/Stats";
 
 const graphInitialData = {
   nodes: [
-    { id: 0, label: "Node 0", shape: "circle" },
-    { id: 1, label: "Node 1", shape: "circle" },
-    { id: 2, label: "Node 2", shape: "circle" },
-    { id: 3, label: "Node 3", shape: "circle" },
-    { id: 4, label: "Node 4", shape: "circle" },
-    { id: 5, label: "Node 5", shape: "circle" },
+    { id: 0, label: "Node 0" },
+    { id: 1, label: "Node 1" },
+    { id: 2, label: "Node 2" },
+    { id: 3, label: "Node 3" },
+    { id: 4, label: "Node 4" },
+    { id: 5, label: "Node 5" },
   ],
   edges: [
     { from: 0, to: 1, label: "10" },
@@ -23,7 +23,7 @@ const graphInitialData = {
 
 export default function App() {
   const [graphState, setGraphState] = useState<{
-    nodes: { id: number; label: string; shape: string }[];
+    nodes: { id: number; label: string }[];
     edges: { from: number; to: number; label: string }[];
   }>({ nodes: [], edges: [] });
 
@@ -55,6 +55,7 @@ export default function App() {
   var options = {
     nodes: {
       size: 40,
+      shape: "circle",
       color: {
         background: "#4B5563",
         border: "#4B5563",
@@ -67,8 +68,10 @@ export default function App() {
       smooth: {
         enabled: true,
       },
+      
     },
     height: "900px",
+
 
     // layout: {
     //   hierarchical: {

@@ -6,7 +6,7 @@ import { DFS } from "../algorithms/DFS";
 import { TopologicalStorting } from "../algorithms/TopologicalStorting"
 import { CheckCycle } from "../algorithms/CheckCycle";
 
-declare type nodeType = { id: number; label: string; shape: string };
+declare type nodeType = { id: number; label: string; };
 declare type edgeType = { from: number; to: number; label: string };
 
 interface IStats {
@@ -30,13 +30,11 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
   const [nodeStartBfs, setNodeStartBfs] = useState<{
     id: number;
     label: string;
-    shape: string;
-  }>({ id: -1, label: "", shape: "" });
+  }>({ id: -1, label: "" });
   const [nodeStartDfs, setNodeStartDfs] = useState<{
     id: number;
     label: string;
-    shape: string;
-  }>({ id: -1, label: "", shape: "" });
+  }>({ id: -1, label: "" });
 
 
   const applyBFS = () => {

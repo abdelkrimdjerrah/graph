@@ -5,7 +5,6 @@ interface Props {
   items: {
     id: number;
     label: string;
-    shape: string
   }[];
   placeholder: string;
   className?: string;

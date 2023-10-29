@@ -3,7 +3,7 @@ import Input from "./Input";
 import Button from "./Button";
 import Select from "./Select";
 
-declare type nodeType = { id: number; label: string; shape: string };
+declare type nodeType = { id: number; label: string; };
 declare type edgeType = { from: number; to: number; label: string };
 
 interface IStats {
@@ -24,28 +24,23 @@ const Operations = ({ graphState, setGraphState, graph }: IStats) => {
   const [optionSelectDeleteNode, setOptionSelectDeleteNode] = useState<{
     id: number;
     label: string;
-    shape: string;
-  }>({ id: -1, label: "", shape: "" });
+  }>({ id: -1, label: "" });
   const [optionSelectDepartAdd, setOptionSelectDepartAdd] = useState<{
     id: number;
     label: string;
-    shape: string;
-  }>({ id: -1, label: "", shape: "" });
+  }>({ id: -1, label: "" });
   const [optionSelectDestinationAdd, setOptionSelectDestinationAdd] = useState<{
     id: number;
     label: string;
-    shape: string;
-  }>({ id: -1, label: "", shape: "" });
+  }>({ id: -1, label: "" });
   const [optionSelectDepartDelete, setOptionSelectDepartDelete] = useState<{
     id: number;
     label: string;
-    shape: string;
-  }>({ id: -1, label: "", shape: "" });
+  }>({ id: -1, label: "" });
   const [optionSelectDestinationDelete, setOptionSelectDestinationDelete] =
-    useState<{ id: number; label: string; shape: string }>({
+    useState<{ id: number; label: string; }>({
       id: -1,
       label: "",
-      shape: "",
     });
 
   const handleAddNode = () => {
@@ -54,7 +49,7 @@ const Operations = ({ graphState, setGraphState, graph }: IStats) => {
         ...prev,
         nodes: [
           ...prev.nodes,
-          { id: prev.nodes.length, label: nodeAdd, shape: "circle" },
+          { id: prev.nodes.length, label: nodeAdd },
         ],
       }));
       setError("");
@@ -107,8 +102,8 @@ const Operations = ({ graphState, setGraphState, graph }: IStats) => {
           ],
         }));
         setError("");
-        setOptionSelectDepartAdd({ id: -1, label: "", shape: "" });
-        setOptionSelectDestinationAdd({ id: -1, label: "", shape: "" });
+        setOptionSelectDepartAdd({ id: -1, label: "" });
+        setOptionSelectDestinationAdd({ id: -1, label: "" });
       }
     } else {
       setError("Field is empty");
@@ -126,8 +121,8 @@ const Operations = ({ graphState, setGraphState, graph }: IStats) => {
         ),
       }));
       setError("");
-      setOptionSelectDepartDelete({ id: -1, label: "", shape: "" });
-      setOptionSelectDestinationDelete({ id: -1, label: "", shape: "" });
+      setOptionSelectDepartDelete({ id: -1, label: "" });
+      setOptionSelectDestinationDelete({ id: -1, label: "" });
     } else {
       setError("Field is empty");
     }
