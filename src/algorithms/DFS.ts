@@ -27,3 +27,4 @@ export const DFS = (graph: Graph, start: number) => {
 
   return visited;
 };
+

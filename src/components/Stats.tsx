@@ -72,6 +72,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
           setSelectedOption={setNodeStartBfs}
           selectedOption={nodeStartBfs}
         />
+        <p>{resultBfs.join(' |-> ')}</p>
         <Button
           widthFull
           onClick={() => {applyBFS()}}
@@ -89,6 +90,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
           setSelectedOption={setNodeStartDfs}
           selectedOption={nodeStartDfs}
         />
+        <p>{resultDfs.join(' |-> ')}</p>
         <Button widthFull onClick={() => {applyDFS()}}>
           Apply DFS
         </Button>
@@ -96,6 +98,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
       <hr />
       <div className="flex flex-col gap-2">
         <div className="text-gray-300 font-semibold">Topological Sorting:</div>
+        <p>{resultTopologicalSorting.join(' |->')}</p>
         <Button widthFull onClick={() => {applyTopologicalSorting()}}>
           Apply Sorting
         </Button>

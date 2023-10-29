@@ -27,22 +27,41 @@ const findingRoots = (graph: Graph) => {
   return roots;
 };
 
+const deepCopyGraph = (graph: Graph) => {
+    const newGraph:Graph = new Map();
+  
+    graph.forEach((value, key) => {
+      newGraph.set(key, {
+        successeurs: [...value.successeurs],
+        predecesseurs: [...value.predecesseurs],
+      });
+    });
+  
+    return newGraph;
+  };
+
 export const TopologicalStorting = (graph: Graph) => {
-  if (!graph.size) {
+
+  const graphCopy = deepCopyGraph(graph)
+  if (!graphCopy.size) {
     return [];
   }
 
   const result: number[][] = [];
-  let roots: number[] = findingRoots(graph);
+  let roots: number[] = findingRoots(graphCopy);
 
   while (roots.length) {
     result.push(roots);
     roots.forEach((root) => {
-      DeleteNode(graph, root);
+      DeleteNode(graphCopy, root);
     });
     //next iteration
-    roots = findingRoots(graph);
+    roots = findingRoots(graphCopy);
   }
 
   return result;
 };
+
+
+
+

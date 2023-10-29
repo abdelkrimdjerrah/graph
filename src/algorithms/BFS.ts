@@ -8,6 +8,7 @@ export const BFS = (graph: Graph, start: number) => {
     return [];
   }
 
+  
   const queue: number[] = [];
   const visited: number[] = [];
 
@@ -23,6 +24,5 @@ export const BFS = (graph: Graph, start: number) => {
       }
     });
   }
-
   return visited;
 };
