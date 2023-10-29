@@ -12,7 +12,7 @@ const graphInitialData = {
     { id: 3, label: "Node 3" },
     { id: 4, label: "Node 4" },
     { id: 5, label: "Node 5" },
-    { id: 66, label: "Node 6" },
+    { id: 6, label: "Node 6" },
   ],
   edges: [
     { from: 0, to: 1, label: "10" },
@@ -20,7 +20,7 @@ const graphInitialData = {
     { from: 2, to: 3, label: "10" },
     { from: 3, to: 4, label: "10" },
     { from: 5, to: 0, label: "10" },
-    { from: 66, to: 0, label: "10" },
+    { from: 6, to: 0, label: "10" },
   ],
 };
 
