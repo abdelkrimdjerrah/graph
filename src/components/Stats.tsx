@@ -20,6 +20,8 @@ interface IStats {
   graph: Map<number, { successeurs: number[]; predecesseurs: number[] }>;
 }
 
+
+
 const Stats = ({ graphState, setGraphState, graph }: IStats) => {
 
   const [error, setError] = useState("");
