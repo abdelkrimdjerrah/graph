@@ -25,7 +25,7 @@ interface IStats {
 const Stats = ({ graphState, setGraphState, graph }: IStats) => {
 
   const [error, setError] = useState("");
-  const [resultBfs, setResultBfs] = useState<number[]>([]);
+  const [resultBfs, setResultBfs] = useState<number[][]>([]);
   const [resultDfs, setResultDfs] = useState<number[][]>([]);
   const [resultTopologicalSorting, setResultTopologicalSorting] = useState<number[][]>([]);
 

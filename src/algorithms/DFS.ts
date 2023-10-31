@@ -23,7 +23,9 @@ export const DFS = (graph: Graph, start: number) => {
 
   stack.push(start);
   while(remaining.length > 0){
+
     const currentGraph: number[] = []
+    
     while (stack.length > 0) {
       const currentNode = stack.pop() as number;
       if (!visited.includes(currentNode)) {
