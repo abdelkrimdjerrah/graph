@@ -26,7 +26,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
 
   const [error, setError] = useState("");
   const [resultBfs, setResultBfs] = useState<number[]>([]);
-  const [resultDfs, setResultDfs] = useState<number[]>([]);
+  const [resultDfs, setResultDfs] = useState<number[][]>([]);
   const [resultTopologicalSorting, setResultTopologicalSorting] = useState<number[][]>([]);
 
   const [nodeStartBfs, setNodeStartBfs] = useState<{
@@ -37,7 +37,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
     id: number;
     label: string;
   }>({ id: -1, label: "" });
-
+  
 
   const applyBFS = () => {
     setError("");
@@ -74,7 +74,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
           setSelectedOption={setNodeStartBfs}
           selectedOption={nodeStartBfs}
         />
-        <p>{resultBfs.join(' |-> ')}</p>
+        <p>{resultBfs.join(' | ')}</p>
         <Button
           widthFull
           onClick={() => {applyBFS()}}
@@ -92,7 +92,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
           setSelectedOption={setNodeStartDfs}
           selectedOption={nodeStartDfs}
         />
-        <p>{resultDfs.join(' |-> ')}</p>
+        <p>{resultDfs.join(' | ')}</p>
         <Button widthFull onClick={() => {applyDFS()}}>
           Apply DFS
         </Button>
@@ -100,7 +100,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
       <hr />
       <div className="flex flex-col gap-2">
         <div className="text-gray-300 font-semibold">Topological Sorting:</div>
-        <p>{resultTopologicalSorting.join(' |->')}</p>
+        <p>{resultTopologicalSorting.join(' |')}</p>
         <Button widthFull onClick={() => {applyTopologicalSorting()}}>
           Apply Sorting
         </Button>
