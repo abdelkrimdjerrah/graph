@@ -5,6 +5,7 @@ import { BFS } from "../algorithms/BFS";
 import { DFS } from "../algorithms/DFS";
 import { TopologicalStorting } from "../algorithms/TopologicalStorting"
 import { CheckCycle } from "../algorithms/CheckCycle";
+import { StronglyConnectedComponents } from "../algorithms/StronglyConnectedComponents";
 
 declare type nodeType = { id: number; label: string; };
 declare type edgeType = { from: number; to: number; label: string };
@@ -28,6 +29,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
   const [resultBfs, setResultBfs] = useState<number[][]>([]);
   const [resultDfs, setResultDfs] = useState<number[][]>([]);
   const [resultTopologicalSorting, setResultTopologicalSorting] = useState<number[][]>([]);
+  const [resultStronglyComponents, setResultStronglyComponents] = useState<number[][]>([]);
 
   const [nodeStartBfs, setNodeStartBfs] = useState<{
     id: number;
@@ -58,6 +60,11 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
     setResultTopologicalSorting(TopologicalStorting(graph));
   }
 
+  const applyStronglyComponents = () => {
+    setError("");
+    setResultStronglyComponents(StronglyConnectedComponents(graph));
+  }
+
 
 
   return (
@@ -66,6 +73,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
         <p className="text-red-500 font-medium text-lg ">{error}</p>
       ) : null}
       <div className="flex flex-col gap-2">
+       
         <div className="text-gray-300 font-semibold">BFS:</div>
         <Select
           items={graphState.nodes}
@@ -100,9 +108,16 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
       <hr />
       <div className="flex flex-col gap-2">
         <div className="text-gray-300 font-semibold">Topological Sorting:</div>
-        <p>{resultTopologicalSorting.join(' |')}</p>
+        <p>{resultTopologicalSorting.join(' | ')}</p>
         <Button widthFull onClick={() => {applyTopologicalSorting()}}>
           Apply Sorting
+        </Button>
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="text-gray-300 font-semibold">Topological Sorting:</div>
+        <p>{resultStronglyComponents.join(' | ')}</p>
+        <Button widthFull onClick={() => {applyStronglyComponents()}}>
+          Strongly Connected Components
         </Button>
       </div>
     </div>

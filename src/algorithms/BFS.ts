@@ -4,6 +4,8 @@ declare type Graph = Map<
 >;
 
 export const BFS = (graph: Graph, start: number) => {
+
+
   if (start == -1  || !graph.size) {
     return [];
   }
@@ -34,7 +36,9 @@ export const BFS = (graph: Graph, start: number) => {
           visited.push(currentNode);
           currentGraph.push(currentNode)
         }
+
         const neighbors = graph.get(currentNode)!.successeurs;
+
         neighbors?.forEach((neighbor: number) => {
           if (!visited.includes(neighbor)) {
             queue.push(neighbor);

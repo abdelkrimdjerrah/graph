@@ -18,6 +18,7 @@ const graphInitialData = {
     { from: 0, to: 1, label: "10" },
     { from: 0, to: 2, label: "10" },
     { from: 2, to: 3, label: "10" },
+    { from: 2, to: 6, label: "10" },
     { from: 3, to: 4, label: "10" },
     { from: 5, to: 0, label: "10" },
     { from: 6, to: 0, label: "10" },
@@ -35,6 +36,8 @@ const graphInitialData = {
   const graphOriented: Map<number, { successeurs: number[]; predecesseurs: number[] }> = new Map();
   const graphNonOriented: Map<number, { neighbors: number[] }> = new Map();
 
+  const usedNodes = new Set<number>();
+
   for (const edge of graphState.edges) {
     
     if (!graphOriented.has(edge.from)) {
@@ -50,10 +53,16 @@ const graphInitialData = {
         predecesseurs: [],
       });
     }
+
     
     graphOriented.get(edge.from)!.successeurs.push(edge.to);
     graphOriented.get(edge.to)!.predecesseurs.push(edge.from);
     
+    usedNodes.add(edge.from);
+    usedNodes.add(edge.to);
+
+
+    //non oriented
     if (!graphNonOriented.has(edge.from)) {
       graphNonOriented.set(edge.from, {
         neighbors: [],
@@ -69,6 +78,20 @@ const graphInitialData = {
       graphNonOriented.get(edge.to)!.neighbors.push(edge.from);
 
 }
+
+for(const node of graphState.nodes) {
+  if(!usedNodes.has(node.id)) {
+    graphOriented.set(node.id, {
+      successeurs: [],
+      predecesseurs: [],
+    });
+    //non oriented
+    graphNonOriented.set(node.id, {
+      neighbors: [],
+    });
+  }
+}
+
 
 
   useEffect(() => {
