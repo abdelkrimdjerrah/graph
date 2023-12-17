@@ -4,7 +4,7 @@ import Button from "./Button";
 import Select from "./Select";
 
 declare type nodeType = { id: number; label: string; };
-declare type edgeType = { from: number; to: number; label: string };
+declare type edgeType = { from: number; to: number; label: string, currentFlow:number, maxFlow:number };
 
 interface IStats {
   graphState: {
@@ -98,6 +98,8 @@ const Operations = ({ graphState, setGraphState, graph }: IStats) => {
               from: optionSelectDepartAdd.id,
               to: optionSelectDestinationAdd.id,
               label: valueArc,
+              currentFlow: 0,
+              maxFlow: 0,
             },
           ],
         }));

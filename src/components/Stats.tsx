@@ -6,9 +6,10 @@ import { DFS } from "../algorithms/DFS";
 import { TopologicalStorting } from "../algorithms/TopologicalStorting"
 import { CheckCycle } from "../algorithms/CheckCycle";
 import { StronglyConnectedComponents } from "../algorithms/StronglyConnectedComponents";
+import { FordFulkerson } from '../algorithms/FordFulkerson';
 
 declare type nodeType = { id: number; label: string; };
-declare type edgeType = { from: number; to: number; label: string };
+declare type edgeType = { from: number; to: number; label: string, currentFlow:number, maxFlow:number };
 
 interface IStats {
   graphState: {
@@ -30,7 +31,8 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
   const [resultDfs, setResultDfs] = useState<number[][]>([]);
   const [resultTopologicalSorting, setResultTopologicalSorting] = useState<number[][]>([]);
   const [resultStronglyComponents, setResultStronglyComponents] = useState<number[][]>([]);
-
+  const [resultFord, setResultFord] = useState<number>(-1);
+  
   const [nodeStartBfs, setNodeStartBfs] = useState<{
     id: number;
     label: string;
@@ -65,7 +67,18 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
     setResultStronglyComponents(StronglyConnectedComponents(graph));
   }
 
+  const applyFordFulkerson = () => {
+    const {graph, residualGraph, maxFlow } = FordFulkerson(graphState,0,7)
+    setGraphState(graph)
+    setResultFord(maxFlow)
+  }
 
+  
+  // console.log(FordFulkerson(graphState,0,7))
+
+  // console.log('oooooo')
+  // console.log(graphState)
+  // console.log('oooooo')
 
   return (
     <div className="text-white z-10 absolute top-5 right-5 flex flex-col gap-5">
@@ -118,6 +131,16 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
         <p>{resultStronglyComponents.join(' | ')}</p>
         <Button widthFull onClick={() => {applyStronglyComponents()}}>
           Strongly Connected Components
+        </Button>
+      </div>
+      <div className="flex flex-col gap-2">
+        <div className="text-gray-300 font-semibold">Ford FordFulkerson:</div>
+        {
+          resultFord !== -1 ? <p>max flow : {resultFord}</p> : null
+        }
+        
+        <Button widthFull onClick={() => applyFordFulkerson()}>
+           Ford FordFulkerson
         </Button>
       </div>
     </div>

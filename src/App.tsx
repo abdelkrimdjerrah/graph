@@ -2,7 +2,7 @@ import Graph from "react-vis-network-graph";
 import Operations from "./components/Operations";
 import { useEffect, useState } from "react";
 import Stats from "./components/Stats";
-
+import { FordFulkerson } from "./algorithms/FordFulkerson";
 
 const graphInitialData = {
   nodes: [
@@ -13,25 +13,36 @@ const graphInitialData = {
     { id: 4, label: "Node 4" },
     { id: 5, label: "Node 5" },
     { id: 6, label: "Node 6" },
+    { id: 7, label: "Node 7" },
   ],
   edges: [
-    { from: 0, to: 1, label: "10" },
-    { from: 0, to: 2, label: "10" },
-    { from: 2, to: 3, label: "10" },
-    { from: 2, to: 6, label: "10" },
-    { from: 3, to: 4, label: "10" },
-    { from: 5, to: 0, label: "10" },
-    { from: 6, to: 0, label: "10" },
+    { from: 0, to: 1, label: "10", currentFlow:0, maxFlow:10 },
+    { from: 0, to: 2, label: "10", currentFlow:0, maxFlow:15 },
+    { from: 0, to: 3, label: "10", currentFlow:0, maxFlow:7 },
+    { from: 1, to: 4, label: "10", currentFlow:0, maxFlow:10 },
+    { from: 2, to: 5, label: "10", currentFlow:0, maxFlow:6 },
+    { from: 2, to: 4, label: "10", currentFlow:0, maxFlow:6 },
+    { from: 3, to: 6, label: "10", currentFlow:0, maxFlow:2 },
+    { from: 4, to: 7, label: "10", currentFlow:0, maxFlow:8 },
+    { from: 5, to: 7, label: "10", currentFlow:0, maxFlow:6 },
+    { from: 6, to: 7, label: "10", currentFlow:0, maxFlow:4 },
   ],
 };
 
 
 
   export default function App() {
+
+
   const [graphState, setGraphState] = useState<{
     nodes: { id: number; label: string }[];
-    edges: { from: number; to: number; label: string }[];
+    edges: { from: number; to: number; label: string, currentFlow:number, maxFlow:number }[];
   }>({ nodes: [], edges: [] });
+
+
+  console.log('in app')
+  console.log(graphState)
+  console.log('in app')
 
   const graphOriented: Map<number, { successeurs: number[]; predecesseurs: number[] }> = new Map();
   const graphNonOriented: Map<number, { neighbors: number[] }> = new Map();
@@ -93,9 +104,21 @@ for(const node of graphState.nodes) {
 }
 
 
-
   useEffect(() => {
-    setGraphState(graphInitialData);
+
+    setGraphState(
+      {
+        nodes: [...graphInitialData.nodes],
+        edges: [
+          ...graphInitialData.edges.map((edge) => {
+            return {
+              ...edge,
+              label: `${edge.currentFlow}/${edge.maxFlow}`,
+            };
+          }),
+        ],
+      }
+    );
   }, []);
 
 
@@ -147,7 +170,6 @@ for(const node of graphState.nodes) {
     //   }
     // }
   };
-
 
 
   return (
