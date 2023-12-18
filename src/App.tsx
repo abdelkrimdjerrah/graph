@@ -36,7 +36,7 @@ const graphInitialData = {
 
   const [graphState, setGraphState] = useState<{
     nodes: { id: number; label: string }[];
-    edges: { from: number; to: number; label: string, currentFlow:number, maxFlow:number }[];
+    edges: { from: number; to: number; label: string, currentFlow:number, maxFlow:number, color:string }[];
   }>({ nodes: [], edges: [] });
 
 
@@ -113,6 +113,7 @@ for(const node of graphState.nodes) {
           ...graphInitialData.edges.map((edge) => {
             return {
               ...edge,
+              color: "#ffffff",
               label: `${edge.currentFlow}/${edge.maxFlow}`,
             };
           }),

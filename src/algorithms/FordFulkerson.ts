@@ -1,6 +1,6 @@
 declare type Graph = {
     nodes: { id: number; label: string }[];
-    edges: { from: number; to: number; label: string; currentFlow:number; maxFlow:number }[];
+    edges: { from: number; to: number; label: string; currentFlow:number; maxFlow:number, color:string }[];
   }
 
 const getResidualGraph = (graph: Graph) => {
@@ -12,8 +12,10 @@ const getResidualGraph = (graph: Graph) => {
             to: edge.from,
             label: edge.label,
             currentFlow: edge.maxFlow,
-            maxFlow: edge.maxFlow
+            maxFlow: edge.maxFlow,
+            color: 'yellow',
         };
+        residualGraph.edges.push(edge);
         residualGraph.edges.push(residualEdge);
     });
 
@@ -21,28 +23,29 @@ const getResidualGraph = (graph: Graph) => {
   }
 
 const findPaths= (graph: Graph, start: number, end: number) => {
-    const visited: number[] = [];
+
     const paths: number[][] = [];
   
-    const DFS = (graph: Graph, start: number, end: number, path: number[]) => {
+    const DFS = (graph: Graph, start: number, end: number, path: number[], visited: number[]) => {
         if (start === end) {
-          path.push(start);
-          if(!paths.includes(path)){
-              paths.push(path)
-          }
-          return;
+            path.push(start);
+            paths.push([...path]); // Push a copy of the path to avoid mutation
+            return;
         }
+    
         visited.push(start);
         path.push(start);
         const neighbors = graph.edges
-          .filter((edge) => edge.from === start)
-          .map((edge) => edge.to);
-        neighbors.forEach((neighbor) => {
-            DFS(graph, neighbor, end, [...path]);
-        });
-      }
+            .filter((edge) => edge.from === start)
+            .map((edge) => edge.to);
     
-      DFS(graph, start, end, []);
+        neighbors.forEach((neighbor) => {
+            if (!visited.includes(neighbor)) {
+                DFS(graph, neighbor, end, [...path], visited.slice()); // Pass a copy of visited
+            }
+        });
+    }
+      DFS(graph, start, end, [], []);
 
         return paths;
   }
@@ -61,24 +64,25 @@ const getPathFlow = (graph: Graph, path: number[]) => {
     return Math.min(...pathFlow);
   }
 
-const augementPathFlow = (graph: Graph, residual: Graph, path: number[], augementation:number) => {
+const augementPathFlow = (residual: Graph, path: number[], augementation:number) => {
     
 
-    const reversePath = [...path].reverse()
-
+    
     for (let i = 0; i < path.length - 1; i++) {
-      graph.edges.map(
-        (edge) => {
-            if(edge.from === Number(path[i]) && edge.to === Number(path[i + 1])){
-                if((edge.currentFlow + augementation) <= edge.maxFlow){
-                    edge.currentFlow += augementation 
-                    edge.label = `${edge.currentFlow}/${edge.maxFlow}`
+        residual.edges.map(
+            (edge) => {
+                if(edge.from === Number(path[i]) && edge.to === Number(path[i + 1])){
+                    if((edge.currentFlow + augementation) <= edge.maxFlow){
+                        edge.currentFlow += augementation 
+                        edge.label = `${edge.currentFlow}/${edge.maxFlow}`
+                    }
                 }
             }
+            );
+            
         }
-      );
-      
-    }
+    
+    const reversePath = [...path].reverse()
 
     for (let i = 0; i < reversePath.length - 1; i++) {
         residual.edges.map(
@@ -97,16 +101,6 @@ const augementPathFlow = (graph: Graph, residual: Graph, path: number[], augemen
 
   }
 
-const updateResidualGraph = (graph: Graph, path: string[], pathFlow: number) => {
-    for (let i = 0; i < path.length - 1; i++) {
-      const edge = graph.edges.find(
-        (edge) => edge.from === Number(path[i]) && edge.to === Number(path[i + 1])
-      );
-      if (edge) {
-        edge.currentFlow += pathFlow;
-      }
-    }
-  }
 
   const getMaxFlow = (graph: Graph, start:number) => {
     const neighbors = graph.edges.filter((edge) => edge.from === start);
@@ -116,6 +110,21 @@ const updateResidualGraph = (graph: Graph, path: string[], pathFlow: number) => 
     return maxFlow;
   }
 
+    const getMaximumPath = (graph: Graph, paths: number[][]) => {
+       
+        let maxPath: number[] = paths[0]
+        let maxFlow = 0
+        paths.forEach((path) => {
+            const pathFlow = getPathFlow(graph, path)
+            if(pathFlow > maxFlow){
+                maxFlow = pathFlow
+                maxPath = path
+            }
+        })
+
+        return maxPath
+
+    }
 export const FordFulkerson = (graph: Graph, start: number, end: number) => {
 
     
@@ -123,24 +132,39 @@ export const FordFulkerson = (graph: Graph, start: number, end: number) => {
 
     const residualGraph = getResidualGraph(copyGraph);
 
-    const paths = findPaths(copyGraph, start, end)
     
-    paths.forEach((path:number[]) => {
-        const pathFlow = getPathFlow(copyGraph,path)
-        augementPathFlow(copyGraph, residualGraph, path,pathFlow)
-    })
+    
+    let maxFlowStop = false
+    
+    while(!maxFlowStop){
+
+        const paths = findPaths(residualGraph, start, end)
+        const maxFlow =  getMaxFlow(residualGraph,start)
+
+        while(paths.length > 0){
+            
+            maxFlowStop = true;
+    
+    
+            const path = getMaximumPath(residualGraph, paths)
+            const pathFlow = getPathFlow(residualGraph, path)
 
 
+            augementPathFlow(residualGraph, path, pathFlow)
+
+            paths.pop()
+    
+            
+        }
+
+        if(maxFlow !== getMaxFlow(residualGraph,start)){
+            maxFlowStop = false
+        }
+
+    }
+    
+    
 
     return {graph: copyGraph , residualGraph: residualGraph , maxFlow: getMaxFlow(copyGraph,start)}
  
-    // const residualGraph = getResidualGraph(graph);
-    // const path = findPath(residualGraph, source, sink);
-    
-    // while (path.length > 0) {
-    //     const pathFlow = getPathFlow(residualGraph, path);
-    //     updateResidualGraph(residualGraph, path, pathFlow);
-    // }
-    
-    // return getMaxFlow(residualGraph);
     }

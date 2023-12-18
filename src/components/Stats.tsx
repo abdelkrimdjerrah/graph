@@ -9,7 +9,7 @@ import { StronglyConnectedComponents } from "../algorithms/StronglyConnectedComp
 import { FordFulkerson } from '../algorithms/FordFulkerson';
 
 declare type nodeType = { id: number; label: string; };
-declare type edgeType = { from: number; to: number; label: string, currentFlow:number, maxFlow:number };
+declare type edgeType = { from: number; to: number; label: string, currentFlow:number, maxFlow:number, color:string };
 
 interface IStats {
   graphState: {
@@ -69,7 +69,7 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
 
   const applyFordFulkerson = () => {
     const {graph, residualGraph, maxFlow } = FordFulkerson(graphState,0,7)
-    setGraphState(graph)
+    setGraphState(residualGraph)
     setResultFord(maxFlow)
   }
 
