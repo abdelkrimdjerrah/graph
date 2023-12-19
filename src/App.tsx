@@ -6,26 +6,25 @@ import { FordFulkerson } from "./algorithms/FordFulkerson";
 
 const graphInitialData = {
   nodes: [
-    { id: 0, label: "Node 0" },
-    { id: 1, label: "Node 1" },
-    { id: 2, label: "Node 2" },
-    { id: 3, label: "Node 3" },
-    { id: 4, label: "Node 4" },
-    { id: 5, label: "Node 5" },
-    { id: 6, label: "Node 6" },
-    { id: 7, label: "Node 7" },
+    { id: 1, label: "S" },
+    { id: 2, label: "A" },
+    { id: 3, label: "B" },
+    { id: 4, label: "C" },
+    { id: 5, label: "D" },
+    { id: 6, label: "T" },
   ],
   edges: [
-    { from: 0, to: 1, label: "10", currentFlow:0, maxFlow:10 },
-    { from: 0, to: 2, label: "10", currentFlow:0, maxFlow:15 },
-    { from: 0, to: 3, label: "10", currentFlow:0, maxFlow:7 },
-    { from: 1, to: 4, label: "10", currentFlow:0, maxFlow:10 },
-    { from: 2, to: 5, label: "10", currentFlow:0, maxFlow:6 },
-    { from: 2, to: 4, label: "10", currentFlow:0, maxFlow:6 },
-    { from: 3, to: 6, label: "10", currentFlow:0, maxFlow:2 },
-    { from: 4, to: 7, label: "10", currentFlow:0, maxFlow:8 },
-    { from: 5, to: 7, label: "10", currentFlow:0, maxFlow:6 },
-    { from: 6, to: 7, label: "10", currentFlow:0, maxFlow:4 },
+    { from: 1, to: 2, label: "2", currentFlow:0, maxFlow:2 },
+    { from: 1, to: 3, label: "6", currentFlow:0, maxFlow:6 },
+    { from: 1, to: 4, label: "1", currentFlow:0, maxFlow:1 },
+    { from: 2, to: 3, label: "3", currentFlow:0, maxFlow:3 },
+    { from: 2, to: 5, label: "7", currentFlow:0, maxFlow:7 },
+    { from: 3, to: 5, label: "3", currentFlow:0, maxFlow:3 },
+    { from: 3, to: 6, label: "5", currentFlow:0, maxFlow:5 },
+    { from: 4, to: 3, label: "2", currentFlow:0, maxFlow:2 },
+    { from: 4, to: 5, label: "6", currentFlow:0, maxFlow:6 },
+    { from: 5, to: 2, label: "3", currentFlow:0, maxFlow:3 },
+    { from: 5, to: 6, label: "4", currentFlow:0, maxFlow:4 },
   ],
 };
 
@@ -40,9 +39,6 @@ const graphInitialData = {
   }>({ nodes: [], edges: [] });
 
 
-  console.log('in app')
-  console.log(graphState)
-  console.log('in app')
 
   const graphOriented: Map<number, { successeurs: number[]; predecesseurs: number[] }> = new Map();
   const graphNonOriented: Map<number, { neighbors: number[] }> = new Map();

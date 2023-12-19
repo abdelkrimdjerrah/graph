@@ -110,21 +110,23 @@ const augementPathFlow = (residual: Graph, path: number[], augementation:number)
     return maxFlow;
   }
 
-    const getMaximumPath = (graph: Graph, paths: number[][]) => {
+    // const getMaximumPath = (graph: Graph, paths: number[][]) => {
        
-        let maxPath: number[] = paths[0]
-        let maxFlow = 0
-        paths.forEach((path) => {
-            const pathFlow = getPathFlow(graph, path)
-            if(pathFlow > maxFlow){
-                maxFlow = pathFlow
-                maxPath = path
-            }
-        })
+    //     let maxPath: number[] = paths[0]
+    //     let maxFlow = 0
+    //     paths.forEach((path) => {
+    //         const pathFlow = getPathFlow(graph, path)
+    //         if(pathFlow > maxFlow){
+    //             maxFlow = pathFlow
+    //             maxPath = path
+    //         }
+    //     })
 
-        return maxPath
+    //     return maxPath
 
-    }
+    // }
+
+
 export const FordFulkerson = (graph: Graph, start: number, end: number) => {
 
     
@@ -141,18 +143,32 @@ export const FordFulkerson = (graph: Graph, start: number, end: number) => {
         const paths = findPaths(residualGraph, start, end)
         const maxFlow =  getMaxFlow(residualGraph,start)
 
+        console.log('coppyy')
+        console.log(copyGraph)
+        console.log('coppyy')
         while(paths.length > 0){
+
             
             maxFlowStop = true;
     
     
-            const path = getMaximumPath(residualGraph, paths)
+            const path = paths[0]
+
+            
             const pathFlow = getPathFlow(residualGraph, path)
+            
+            
+            if(pathFlow > 0){
 
+                augementPathFlow(residualGraph, path, pathFlow)
 
-            augementPathFlow(residualGraph, path, pathFlow)
+                console.log('Selected path :')
+                console.log(path)
+                console.log('Maximum path flow available : ')
+                console.log(pathFlow)
+            }
 
-            paths.pop()
+            paths.shift()
     
             
         }
@@ -163,7 +179,11 @@ export const FordFulkerson = (graph: Graph, start: number, end: number) => {
 
     }
     
-    
+
+    residualGraph.edges.forEach((edge)=>{
+        edge.label = `${edge.currentFlow}/${edge.maxFlow}`
+    })
+
 
     return {graph: copyGraph , residualGraph: residualGraph , maxFlow: getMaxFlow(copyGraph,start)}
  

@@ -68,17 +68,13 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
   }
 
   const applyFordFulkerson = () => {
-    const {graph, residualGraph, maxFlow } = FordFulkerson(graphState,0,7)
+    const {graph, residualGraph, maxFlow } = FordFulkerson(graphState,1,6)
     setGraphState(residualGraph)
     setResultFord(maxFlow)
   }
 
   
-  // console.log(FordFulkerson(graphState,0,7))
 
-  // console.log('oooooo')
-  // console.log(graphState)
-  // console.log('oooooo')
 
   return (
     <div className="text-white z-10 absolute top-5 right-5 flex flex-col gap-5">
