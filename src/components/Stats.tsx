@@ -7,6 +7,7 @@ import { TopologicalStorting } from "../algorithms/TopologicalStorting"
 import { CheckCycle } from "../algorithms/CheckCycle";
 import { StronglyConnectedComponents } from "../algorithms/StronglyConnectedComponents";
 import { FordFulkerson } from '../algorithms/FordFulkerson';
+import { Christofides } from "../algorithms/Christofides";
 
 declare type nodeType = { id: number; label: string; };
 declare type edgeType = { from: number; to: number; label: string, currentFlow:number, maxFlow:number, color:string };
@@ -71,6 +72,21 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
     const {graph, residualGraph, maxFlow } = FordFulkerson(graphState,1,6)
     setGraphState(residualGraph)
     setResultFord(maxFlow)
+  }
+
+  const applyChristofides = () => {
+    const {graph, tspTour} = Christofides(graphState)
+    
+    setGraphState(
+      {
+        nodes: graphState.nodes,
+        edges: graphState.edges.map(edge => {
+          const edgeColor = tspTour.find((tspEdge:any) => tspEdge.from === edge.from && tspEdge.to === edge.to) ? "yellow" : "white"
+          return {...edge, color: edgeColor}
+        })
+      }
+    )
+
   }
 
   
@@ -139,8 +155,19 @@ const Stats = ({ graphState, setGraphState, graph }: IStats) => {
            Ford FordFulkerson
         </Button>
       </div>
+      <div className="flex flex-col gap-2">
+        <div className="text-gray-300 font-semibold">Christofides:</div>
+        {
+          resultFord !== -1 ? <p>low cost path : {resultFord}</p> : null
+        }
+        
+        <Button widthFull onClick={() => applyChristofides()}>
+            Christofides
+        </Button>
+      </div>
     </div>
   );
 };
 
-export default Stats;
+
+export default Stats

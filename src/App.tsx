@@ -6,12 +6,12 @@ import { FordFulkerson } from "./algorithms/FordFulkerson";
 
 const graphInitialData = {
   nodes: [
-    { id: 1, label: "S" },
-    { id: 2, label: "A" },
-    { id: 3, label: "B" },
-    { id: 4, label: "C" },
-    { id: 5, label: "D" },
-    { id: 6, label: "T" },
+    { id: 1, label: "1" },
+    { id: 2, label: "2" },
+    { id: 3, label: "3" },
+    { id: 4, label: "4" },
+    { id: 5, label: "5" },
+    { id: 6, label: "6" },
   ],
   edges: [
     { from: 1, to: 2, label: "2", currentFlow:0, maxFlow:2 },
@@ -27,6 +27,7 @@ const graphInitialData = {
     { from: 5, to: 6, label: "4", currentFlow:0, maxFlow:4 },
   ],
 };
+
 
 
 
@@ -149,7 +150,7 @@ for(const node of graphState.nodes) {
       font: { color: "white" },
     },
     edges: {
-      // arrows: 'none',
+      arrows: 'none',
       color: "white",
       shadow: true,
       smooth: {
