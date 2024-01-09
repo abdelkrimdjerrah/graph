@@ -25,6 +25,7 @@ const graphInitialData = {
     { from: 4, to: 5, label: "6", currentFlow:0, maxFlow:6 },
     { from: 5, to: 2, label: "3", currentFlow:0, maxFlow:3 },
     { from: 5, to: 6, label: "4", currentFlow:0, maxFlow:4 },
+    { from: 6, to: 2, label: "4", currentFlow:0, maxFlow:9 },
   ],
 };
 

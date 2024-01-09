@@ -63,12 +63,13 @@ declare type Graph = {
     const matchedVertices = new Set<number>();
     const matchingEdges: any = [];
   
+    // for every odd node , we will get the minimum edge ( lien )
     for (const vertex of oddVertices) {
       if (!matchedVertices.has(vertex)) {
         let minEdge: any | undefined = undefined;
         for (const edge of graph.edges) {
           if ((edge.from === vertex || edge.to === vertex) && !matchedVertices.has(edge.from) && !matchedVertices.has(edge.to)) {
-            if (!minEdge || parseInt(edge.label) < parseInt(minEdge.label)) {
+            if (!minEdge || edge.maxFlow < minEdge.maxFlow) {
               minEdge = edge;
             }
           }
@@ -108,15 +109,16 @@ declare type Graph = {
     const dfs = (node: number) => {
       for (let i = 0; i < graph.edges.length; i++) {
         if (!visitedEdges[i] && (graph.edges[i].from === node || graph.edges[i].to === node)) {
-          const nextNode = graph.edges[i].from === node ? graph.edges[i].to : graph.edges[i].from;
           visitedEdges[i] = true;
+          const nextNode = graph.edges[i].from === node ? graph.edges[i].to : graph.edges[i].from;
           dfs(nextNode);
           eulerianTour.push(graph.edges[i]);
         }
       }
     };
-  
-    dfs(graph.edges[0].from); // Start DFS from any node
+
+    dfs(graph.edges[0].from); // Start DFS from the first node in the list
+
     return eulerianTour;
   };
 
@@ -130,19 +132,18 @@ declare type Graph = {
         tspTour.push(edge);
         visitedNodes.add(edge.from);
       }
-    }
-
-    for (const edge of eulerianTour) {
       if (!visitedNodes.has(edge.to)) {
         tspTour.push(edge);
         visitedNodes.add(edge.to);
       }
     }
 
+    // remove duplicates
     tspTour = tspTour.filter((edge: any, index: number) => {
         const firstIndex = tspTour.findIndex((e: any) => e.from === edge.from && e.to === edge.to);
         return firstIndex === index;
         });
+
   
     return tspTour;
   };
@@ -159,8 +160,6 @@ export const Christofides = (graph: Graph) => {
     const eulerianTour = findEulerianTour(combinedGraph);
     const tspTour = shortcutEulerianTour(eulerianTour);
 
-
-    console.log(tspTour)
     return {graph: copyGraph, tspTour}
  
     }
